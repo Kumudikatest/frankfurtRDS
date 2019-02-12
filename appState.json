@@ -23,8 +23,17 @@
         "children": [],
         "isRemovable": true,
         "filePath": "frankfurtRDS/lambda.js",
-        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You must always end/destroy the DB connection after it's used\n    rds.beginTransaction({\n        instanceIdentifier: 'Test'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n        }\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
-        "triggers": [],
+        "code": "exports.handler = function (event, context, callback) {\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "triggers": [
+          {
+            "resourceName": "s3comsigmatest318300609668cwidanagecaCentral1",
+            "config": {
+              "type": "s3:ObjectCreated:*",
+              "keyPrefix": "",
+              "keySuffix": ""
+            }
+          }
+        ],
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -103,6 +112,18 @@
           "isNewFromGlobal": false
         },
         "globallyEditable": true
+      },
+      "s3comsigmatest318300609668cwidanagecaCentral1": {
+        "name": "s3comsigmatest318300609668cwidanagecaCentral1",
+        "type": "S3",
+        "config": {
+          "mode": 1,
+          "bucket": {
+            "region": "eu-central-1",
+            "name": "com.sigma.test.318300609668.cwidanage.ca-central-1"
+          }
+        },
+        "globallyEditable": false
       }
     },
     "customTemplate": {
@@ -137,7 +158,7 @@
     "projectRegion": "eu-central-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1549951834648
+    "lastSave": 1549955164631
   },
   "VCS_STATE": {
     "provider": "GitHub",
