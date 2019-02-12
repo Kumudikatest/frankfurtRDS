@@ -1,0 +1,149 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "ff3bc5d3-8e37-4308-8995-3cf703379577": {
+        "id": "ff3bc5d3-8e37-4308-8995-3cf703379577",
+        "parent": null,
+        "name": "frankfurtRDS",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "726aca74-96d4-4d9f-9f32-9b90c76cf47d",
+          "ea3e1134-a1fd-4be0-9d42-3cf49c88c1fc"
+        ],
+        "isRemovable": false,
+        "filePath": "frankfurtRDS"
+      },
+      "726aca74-96d4-4d9f-9f32-9b90c76cf47d": {
+        "id": "726aca74-96d4-4d9f-9f32-9b90c76cf47d",
+        "parent": "ff3bc5d3-8e37-4308-8995-3cf703379577",
+        "name": "lambda.js",
+        "type": "LAMBDA_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "frankfurtRDS/lambda.js",
+        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You must always end/destroy the DB connection after it's used\n    rds.beginTransaction({\n        instanceIdentifier: 'Test'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n        }\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "triggers": [],
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "testCases": {
+          "f0abd3a9-6202-4e18-a6c5-2531b931bb98": {
+            "id": "f0abd3a9-6202-4e18-a6c5-2531b931bb98",
+            "name": "Unnamed event",
+            "functionId": "726aca74-96d4-4d9f-9f32-9b90c76cf47d",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      },
+      "ea3e1134-a1fd-4be0-9d42-3cf49c88c1fc": {
+        "id": "ea3e1134-a1fd-4be0-9d42-3cf49c88c1fc",
+        "parent": "ff3bc5d3-8e37-4308-8995-3cf703379577",
+        "name": "ConnectionManager.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "frankfurtRDS/ConnectionManager.js",
+        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"Test\"] = {\n        host: process.env.EndPoint_rdsTest,\n        port: process.env.Port_rdsTest,\n        user: process.env.User_rdsTest,\n        password: process.env.Password_rdsTest,\n        database: \"Test\"\n    };\n};",
+        "triggers": []
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "ff3bc5d3-8e37-4308-8995-3cf703379577",
+    "openFiles": [
+      "726aca74-96d4-4d9f-9f32-9b90c76cf47d"
+    ],
+    "currentFileId": "726aca74-96d4-4d9f-9f32-9b90c76cf47d",
+    "resources": {
+      "rds-Test": {
+        "name": "rds-Test",
+        "type": "RDS",
+        "config": {
+          "editMode": false,
+          "operation": 1,
+          "rdsInstance": {
+            "rdsEngineType": "mysql",
+            "rdsEdition": "",
+            "rdsInstanceSpec": {
+              "dbInstanceClass": "db.t2.micro",
+              "dbLicenseModel": "general-public-license",
+              "dbEngineVersion": "5.7.19"
+            },
+            "rdsSetting": {
+              "instanceIdentifier": "Test",
+              "masterUsername": "Test",
+              "masterPassword": "Test#123"
+            },
+            "rdsDBOptions": {
+              "dbName": "Test",
+              "dbPort": "1932"
+            },
+            "rdsInstanceArn": "",
+            "Host": "",
+            "doesExist": false,
+            "initializationQuery": "CREATE TABLE testing(ID INT(3) PRIMARY KEY);",
+            "alreadyDeployed": false
+          },
+          "rdsInstanceResources": [],
+          "projectRegion": "eu-central-1",
+          "mode": 0,
+          "additionalFiles": [],
+          "params": {
+            "query": "",
+            "inserts": ""
+          },
+          "isGlobalEditMode": false,
+          "enableInject": true,
+          "isNewFromGlobal": false
+        },
+        "globallyEditable": true
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "slappforge-sdk-aws": {
+          "name": "slappforge-sdk-aws",
+          "version": "0.0.5",
+          "dev": false,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "frankfurtRDS",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "eu-central-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1549951834648
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "frankfurtRDS",
+      "url": "https://github.com/Kumudikatest/frankfurtRDS"
+    }
+  }
+}
